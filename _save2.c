@@ -52,38 +52,15 @@ void child_process_1(t_stack stack, int *fd)
 //}
 //void close_fd()
 
-//void	error_handler(char *str, int fd)
-//{
-//    if (fd != -1)
-//        write(fd, "       0\n", 9);
-//    write(STDERR_FILENO, "pipex: ", 7);
-//    perror(str);
-//    exit(0);
-//}
-//int main (int argc, char **argv, char **env)
-
-void child_processes_middle(t_stack stack)
+void	error_handler(char *str, int fd)
 {
-    int i;
-
-    i = 0;
-    while (i < stack.argc - 5)
-    {
-        if (stack.pid[1]== 0)
-        {
-            close(stack.fd_pipe[1][0]);
-            close(stack.fd_pipe[0][1]);
-            close(stack.fd_infile);
-            close(stack.fd_outfile);
-            dup2(stack.fd_pipe[0][0], STDIN_FILENO);
-            close(stack.fd_pipe[0][0]);
-            dup2(stack.fd_pipe[1][1], STDOUT_FILENO);
-            close(stack.fd_pipe[1][1]);
-            exec_command(stack.env, stack.argv[3]);
-        }
-    }
-
+    if (fd != -1)
+        write(fd, "       0\n", 9);
+    write(STDERR_FILENO, "pipex: ", 7);
+    perror(str);
+    exit(0);
 }
+//int main (int argc, char **argv, char **env)
 int main (int argc, char **argv, char **env)
 {
     t_stack stack;
@@ -104,13 +81,12 @@ int main (int argc, char **argv, char **env)
 
 
     stack.fd_outfile = open(argv[argc - 1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
-//    if (stack.fd_outfile == -1)
-//        error_handler(stack.argv[2], -1);
+    if (stack.fd_outfile == -1)
+        error_handler(stack.argv[2], -1);
     stack.fd_infile = open(argv[1], O_RDONLY);
-//    if (stack.fd_infile == -1)
-//        error_handler(stack.argv[1], stack.fd_outfile);
+    if (stack.fd_infile == -1)
+        error_handler(stack.argv[1], stack.fd_outfile);
     i = 0;
-
     while (i < (argc - 3))
     {
         stack.pid[i] = fork();
@@ -118,57 +94,38 @@ int main (int argc, char **argv, char **env)
             exit(0);
     }
 
-//    if (stack.pid[0] == 0)
-//    {
-//        close(stack.fd_outfile);
-//        close(stack.fd_pipe[1][0]);
-//        close(stack.fd_pipe[1][1]);
-//        close(stack.fd_pipe[0][0]);
-//        close(stack.fd_pipe[2][0]);
-//        close(stack.fd_pipe[2][1]);
-//        close(stack.fd_pipe[3][1]);
-//        close(stack.fd_pipe[3][0]);
-//        dup2(stack.fd_infile, STDIN_FILENO);
-//        close(stack.fd_infile);
-//        dup2(stack.fd_pipe[0][1], STDOUT_FILENO);
-//        close(stack.fd_pipe[0][1]);
-//
-//    }
-
-
-//    if (stack.pid[0] == 0)
-//    {
-//        close(stack.fd_outfile);
-//        close(stack.fd_pipe[1][0]);
-//        close(stack.fd_pipe[1][1]);
-//        close(stack.fd_pipe[0][0]);
-//        dup2(stack.fd_infile, STDIN_FILENO);
-//        close(stack.fd_infile);
-//        dup2(stack.fd_pipe[0][1], STDOUT_FILENO);
-//        close(stack.fd_pipe[0][1]);
-//        exec_command(stack.env, stack.argv[2]);
-//    }
-//    dup2(stack.fd_infile, STDIN_FILENO);
-//    dup2(stack.fd_infile, STDIN_FILENO);
-//    close(stack.fd_infile);
     if (stack.pid[0] == 0)
     {
-        close(stack.fd_pipe[0][0]);
-        close(stack.fd_pipe[1][1]);
-        close(stack.fd_pipe[1][0]);
         close(stack.fd_outfile);
+        close(stack.fd_pipe[1][0]);
+        close(stack.fd_pipe[1][1]);
+        dup2(stack.fd_infile, stack.fd_pipe[0][0]);
+        close(stack.fd_infile);
+        close(stack.fd_pipe[0][0]);
+        dup2(stack.fd_pipe[0][1], STDOUT_FILENO);
+        close(stack.fd_pipe[0][1]);
+    }
+
+    if (stack.pid[0] == 0)
+    {
+        close(stack.fd_outfile);
+        close(stack.fd_pipe[1][0]);
+        close(stack.fd_pipe[1][1]);
+        close(stack.fd_pipe[0][0]);
         dup2(stack.fd_infile, STDIN_FILENO);
+//        close(fd[0]);
         close(stack.fd_infile);
         dup2(stack.fd_pipe[0][1], STDOUT_FILENO);
         close(stack.fd_pipe[0][1]);
         exec_command(stack.env, stack.argv[2]);
     }
+
     if (stack.pid[1]== 0)
     {
-        close(stack.fd_pipe[0][1]);
         close(stack.fd_pipe[1][0]);
-        close(stack.fd_outfile);
+        close(stack.fd_pipe[0][1]);
         close(stack.fd_infile);
+        close(stack.fd_outfile);
         dup2(stack.fd_pipe[0][0], STDIN_FILENO);
         close(stack.fd_pipe[0][0]);
         dup2(stack.fd_pipe[1][1], STDOUT_FILENO);
@@ -176,19 +133,6 @@ int main (int argc, char **argv, char **env)
         exec_command(stack.env, stack.argv[3]);
     }
 
-//    if (stack.pid[2] == 0)
-//    {
-//        close(stack.fd_pipe[0][0]);
-//        close(stack.fd_pipe[0][1]);
-//        close(stack.fd_pipe[1][1]);
-//        close(stack.fd_infile);
-//        //        close(fd_2[1]);
-//        dup2(stack.fd_pipe[1][0], STDIN_FILENO);
-//        close(stack.fd_pipe[1][0]);
-//        dup2(stack.fd_outfile, STDOUT_FILENO);
-//        close(stack.fd_outfile);
-//        exec_command(env, argv[4]);
-//    }
     if (stack.pid[2] == 0)
     {
         close(stack.fd_pipe[0][0]);
