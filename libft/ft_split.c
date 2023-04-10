@@ -18,7 +18,7 @@
 // void	free_memory(char **array)
 // {
 // 	int	i;
-
+//
 // 	i = 0;
 // 	if (array == NULL)
 // 	{
@@ -30,11 +30,11 @@
 // 		free(array);
 // 	}
 // }
-
+//
 // int	ft_countchr(char const *s, char c)
 // {
 // 	int	i;
-
+//
 // 	i = 0;
 // 	while (*s != '\0')
 // 	{
@@ -47,13 +47,13 @@
 // 	}
 // 	return (i);
 // }
-
+//
 // char	**ft_split(const char *s, char c)
 // {
 // 	char	**ret;
 // 	size_t	i;
 // 	size_t	len;
-
+//
 // 	if (!s)
 // 		return (0);
 // 	i = 0;

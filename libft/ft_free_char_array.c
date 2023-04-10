@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar.c                                       :+:      :+:    :+:   */
+/*   ft_free_char_array.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: estruckm <estruckm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/09 16:29:59 by nristorc          #+#    #+#             */
-/*   Updated: 2023/04/10 17:28:25 by estruckm         ###   ########.fr       */
+/*   Created: 2023/04/10 15:23:43 by estruckm          #+#    #+#             */
+/*   Updated: 2023/04/10 17:27:01 by estruckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+#include <unistd.h>
+#include <stdlib.h>
 
-void	ft_putchar(char c)
+void	ft_free_char_array(char **array)
 {
-	write(1, &c, 1);
+	int	i;
+
+	i = 0;
+	while (array[i])
+	{
+		free(array[i]);
+		i++;
+	}
+	free(array[i]);
+	free(array);
 }

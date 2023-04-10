@@ -6,7 +6,7 @@
 /*   By: estruckm <estruckm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/18 19:34:14 by estruckm          #+#    #+#             */
-/*   Updated: 2023/03/23 15:48:40 by estruckm         ###   ########.fr       */
+/*   Updated: 2023/04/10 17:28:56 by estruckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@
 // 	ft_strlcpy(p, s + start, len +1);
 // 	return (p);
 // }
-
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {

@@ -6,7 +6,7 @@
 /*   By: estruckm <estruckm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/12 19:28:55 by estruckm          #+#    #+#             */
-/*   Updated: 2023/03/23 12:55:52 by estruckm         ###   ########.fr       */
+/*   Updated: 2023/04/10 17:29:22 by estruckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,11 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char*));
 void	ft_putendl_fd(char *s, int fd);
 char	*ft_itoa(int n);
 char	*ft_itoa_s(int n, char *buf);
+
+// Free Functions
+
+void	ft_free_char_array(char **array);
+void	ft_free_integer_array(int **array, int n);
 //Character Functions
 
 int		ft_isprint(int chr);
@@ -74,10 +79,5 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*));
 void	ft_lstclear(t_list **lst, void (*del)(void*));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-
-
-//My own functions
-
-// int	ft_numlen_bonus(int n, int base);
 
 #endif
